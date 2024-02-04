@@ -1,2 +1,4 @@
-# BioinformaticsCourse2024
-Bioinformatics Course for HSE master students
+# Bioinformatics Course for HSE master students
+
+
+My e-mail - meleshko.dmitrii@gmail.com
