@@ -1,8 +1,10 @@
 from Bio import SeqIO, pairwise2
 from distance import hamming, levenshtein
 
+
 def hamming_distance(a, b):
     return sum([a[i] != b[i] for i, _ in enumerate(a)])
+
 
 def levenshtein_distance(a, b):
     n, m = len(a), len(b)
@@ -20,6 +22,7 @@ def levenshtein_distance(a, b):
                 d[i][j] = d[i - 1][j - 1]
     return d[n - 1][m - 1]
 
+
 def closest_substring(pattern, s):
     n = len(pattern)
     min_dist = float('inf')
@@ -32,18 +35,19 @@ def closest_substring(pattern, s):
             min_dist = dist
             closest_i = i
             closest_pattern = cur_pattern
-    return (closest_i, closest_pattern, min_dist)
+    return closest_i, closest_pattern, min_dist
+
 
 def __test_task_1(fasta_sequences_1, fasta_sequences_2):
-
     # Define custom scoring matrix for matches and mismatches
     match_score = 2
     mismatch_penalty = -1
     gap_penalty = -0.5
 
     # Perform pairwise sequence alignment with custom scoring
-    alignments_custom = pairwise2.align.globalms(*fasta_sequences_1, match_score, mismatch_penalty, gap_penalty, gap_penalty,
-                                                 one_alignment_only=True)[0]
+    alignments_custom = \
+        pairwise2.align.globalms(*fasta_sequences_1, match_score, mismatch_penalty, gap_penalty, gap_penalty,
+                                 one_alignment_only=True)[0]
 
     fasta_sequences_1 = [alignments_custom.seqA, alignments_custom.seqB]
     print('__test_1 (hamming)')
@@ -56,7 +60,6 @@ def __test_task_1(fasta_sequences_1, fasta_sequences_2):
 
 
 def __test_task_2(fasta_sequences_1, fasta_sequences_2):
-
     for i, pattern in enumerate(fasta_sequences_2):
         for j, s in enumerate(fasta_sequences_1):
             print(f'__test_2 (gattaca_{i} / f8_{j})')
@@ -67,8 +70,8 @@ def __test_task_2(fasta_sequences_1, fasta_sequences_2):
             print(f'Hamming distance: {dist}')
             print()
 
-def __test_task_3(fasta_sequences_1, fasta_sequences_2):
 
+def __test_task_3(fasta_sequences_1, fasta_sequences_2):
     print('__test_3 (levenshtein)')
     print('data/f8.fasta results:')
     print('True: ', levenshtein(*fasta_sequences_1))
@@ -77,11 +80,12 @@ def __test_task_3(fasta_sequences_1, fasta_sequences_2):
     print('True: ', levenshtein(*fasta_sequences_2))
     print('Test: ', levenshtein_distance(*fasta_sequences_2))
 
+
 if __name__ == "__main__":
-    fasta_sequences_1 = [record.seq for record in
-                         SeqIO.parse("data/f8.fasta", "fasta")]
-    fasta_sequences_2 = [record.seq for record in
-                         SeqIO.parse("data/gattaca.fasta", "fasta")]
-    __test_task_1(fasta_sequences_1, fasta_sequences_2)
-    __test_task_2(fasta_sequences_1, fasta_sequences_2)
-    __test_task_3(fasta_sequences_1, fasta_sequences_2)
+    fasta_sequence_1 = [record.seq for record in
+                        SeqIO.parse("data/f8.fasta", "fasta")]
+    fasta_sequence_2 = [record.seq for record in
+                        SeqIO.parse("data/gattaca.fasta", "fasta")]
+    __test_task_1(fasta_sequence_1, fasta_sequence_2)
+    __test_task_2(fasta_sequence_1, fasta_sequence_2)
+    __test_task_3(fasta_sequence_1, fasta_sequence_2)
